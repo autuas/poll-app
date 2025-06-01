@@ -1,0 +1,22 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Poll Form{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Create a new poll</h2>
+
+<form method="post">
+    {# ### #}
+    {# FLAW 5: Cross-Site Request Forgery (CSRF) #}
+    {# See polls/views.py line 59 for the corresponding view function #}
+    {# Uncomment the line below for the safe version: #}
+    {# {% csrf_token %} #}
+    {# ### #}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}

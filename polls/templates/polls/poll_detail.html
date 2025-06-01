@@ -1,0 +1,67 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Poll Detail{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Poll detail</h2>
+
+<h3>Poll name: {{ poll.question }}</h3>
+
+{% if poll.owner == user and poll.active %}
+    <p><a href="{% url 'polls:poll_add_choice' poll.id %}">Add a choice to your poll </a></p>
+{% endif %}
+
+{% if poll.active %}
+    {% if choice_count >= 2 %}
+        {% if not user_voted and poll.owner != user %}
+            <form method="post" action="{% url 'polls:poll_vote' poll.pk %}">
+                {% csrf_token %}
+                {% for choice in poll.choices.all %}
+                    <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.choice_text }}<br>
+                {% endfor %}
+                <br>
+                <button type="submit">Vote</button>
+            </form>
+        {% else %}
+            {% if user_voted %}
+                <p>You have already voted on this poll.</p>
+            {% elif poll.owner == user %}
+                <p>You cannot vote on your own poll.</p>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p>This poll cannot be voted on because it does not have at least two choices.</p>
+    {% endif %}
+{% else %}
+    <p>This poll has ended.</p>
+{% endif %}
+
+<h3>Results:</h3>
+
+<ul>
+    {% for choice in choices %}
+        <li>
+            {{ choice.choice_text }} - {{ choice.votes.count }} vote(s)
+        </li>
+    {% endfor %}
+</ul>
+
+{% if not poll.active %}
+    {% if max_votes > 0 %}
+        {% if winners %}
+            <p><strong>Winner{% if winners|length > 1 %}s{% endif %}:</strong></p>
+            <ul>
+                {% for winner in winners %}
+                    <li><strong>{{ winner.choice_text }}</strong> with {{ max_votes }} vote(s)</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <p>No votes were cast.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}
+

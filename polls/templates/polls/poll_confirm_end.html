@@ -1,0 +1,20 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Confirm End Poll{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Confirm End Poll</h2>
+
+<p>Are you sure you want to end this poll?:</p>
+
+<p><strong>{{ poll.question }}</strong></p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes</button>
+</form>
+
+{% endblock %}

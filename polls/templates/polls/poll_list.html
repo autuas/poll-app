@@ -1,0 +1,54 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Poll List{% endblock %}
+
+{% block content %}
+
+<h2>Poll List</h2>
+
+<a href="{% url 'polls:poll_sql_search_form' %}">Search polls</a>
+|
+<a href="{% url 'polls:poll_create' %}">Create a new poll</a>
+
+<style>
+
+.poll-list {
+    list-style: none;
+    padding: 0;
+    margin: 1em 1em;
+}
+
+
+.poll-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1em 1em;
+}
+
+
+.poll-question {
+    flex-grow: 1;
+}
+
+</style>
+
+<ul class="poll-list">
+    {% for poll in polls %}
+        <li class="poll-item">
+            <span class="poll-question">
+                <a href="{% url 'polls:poll_detail' poll.pk %}"><strong>{{ poll.question }}</strong></a>
+            </span>
+            {% if poll.owner == user %}
+                <span class="poll-actions">
+                    <a href="{% url 'polls:poll_delete' poll.pk %}">Delete</a>
+                    {% if poll.active %}
+                        <a href="{% url 'polls:poll_end' poll.pk %}">End</a>
+                    {% endif %}
+                </span>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>There are no polls yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

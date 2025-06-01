@@ -1,0 +1,19 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Poll Search{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Poll Search</h2>
+
+<form method="get" action="{% url 'polls:poll_search_results' %}">
+  <label for="q">Query:</label>
+  <input type="text" name="q" id="q" value="{{ request.GET.q }}">
+  <button type="submit">Search</button>
+</form>
+
+
+{% endblock %}
+

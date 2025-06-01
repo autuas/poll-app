@@ -1,0 +1,26 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Poll Search Results{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_sql_search_form' %}">Back to search</a>
+|
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Poll Search Results</h2>
+
+<p>Query: <strong>{{ query }}</strong></p>
+
+{% if results %}
+    <ul>
+    {% for row in results %}
+        <li>ID: {{ row.0 }}, Question: {{ row.1 }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results were found.</p>
+{% endif %}
+
+{% endblock %}
+

