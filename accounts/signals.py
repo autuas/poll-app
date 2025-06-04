@@ -29,7 +29,9 @@ def log_user_login_failed(sender, credentials, request, **kwargs):
 
 @receiver(user_logged_out)
 def log_logged_out(sender, request, user, **kwargs):
-    logger.info(f"Logout for username '{user.username}' from IP address {get_client_ip_address(request)}.")
+    username = getattr(user, 'username', 'Unknown')
+    ip = get_client_ip_address(request)
+    logger.info(f"Logout for username '{username}' from IP address {ip}.")
 
 @receiver(post_save, sender=User)
 def log_user_registered(sender, instance, created, **kwargs):
