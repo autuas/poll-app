@@ -83,7 +83,7 @@ def poll_delete(request, pk):
     # #
     # if poll.owner != request.user:
     #    
-    #    return HttpResponseForbidden()
+    #    return HttpResponseForbidden("You are not allowed to delete other users' polls!")
     # ###
 
     if request.method == 'POST':
